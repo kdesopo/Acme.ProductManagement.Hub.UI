@@ -1,5 +1,6 @@
 import { DataGrid, type GridColDef, type GridRowsProp } from "@mui/x-data-grid";
 import type { Product } from "../models/product";
+import { Box } from "@mui/material";
 
 type ProductDataGridProps = {
     products: Product[] | undefined;
@@ -22,19 +23,21 @@ export function ProductDataGrid({ products, isLoading }: ProductDataGridProps) {
     }
 
     const columns: GridColDef[] = [
-        { field: 'category', headerName: 'Category' },
-        { field: 'name', headerName: 'Name' },
-        { field: 'code', headerName: 'Product Code'},
-        { field: 'price', headerName: 'Price' },
-        { field: 'sku', headerName: 'SKU' },
-        { field: 'stockQuantity', headerName: 'Stock Quantity' },
-        { field: 'dateAdded', headerName: 'Date Added' }
-    ];    
+        { field: 'category', headerName: 'Category', flex: .8 },
+        { field: 'name', headerName: 'Name', flex: 1.5 },
+        { field: 'code', headerName: 'Product Code', flex: 1 },
+        { field: 'price', headerName: 'Price', flex: 0.5 },
+        { field: 'sku', headerName: 'SKU', flex: 1 },
+        { field: 'stockQuantity', headerName: 'Stock Quantity', flex: 0.5 },
+        { field: 'dateAdded', headerName: 'Date Added', flex: 0.5 }
+    ];
     return (
-        <DataGrid
-            rows={rows}
-            columns={columns}
-            loading={isLoading}
-        />
+        <Box sx={{ width: '100%', p: 2 }}>
+            <DataGrid
+                rows={rows}
+                columns={columns}
+                loading={isLoading}
+            />
+        </Box>
     );
 }

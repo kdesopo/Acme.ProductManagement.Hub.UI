@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import { useProductList } from "../hooks/use-product-list";
 import { ProductDataGrid } from "./product-data-grid";
 import { ProductsAddedByTimeIntervalBarChart } from "./products-added-by-time-interval-bar-chart";
@@ -9,8 +10,14 @@ export function Dashboard() {
     return (
         <> 
             <h1>Dashboard</h1>
-            <QuantityByCategoryBarChart products={products} />
-            <ProductsAddedByTimeIntervalBarChart products={products} />
+            <Box sx={{ width: '100%' }}>
+                <div style={{ float: 'left', width: '50%' }}>
+                    <QuantityByCategoryBarChart products={products} />
+                </div>
+                <div style={{ float: 'right', width: '50%' }}>
+                    <ProductsAddedByTimeIntervalBarChart products={products} />
+                </div>
+            </Box>
             <ProductDataGrid products={products} isLoading={isLoading} />
         </>
     );
