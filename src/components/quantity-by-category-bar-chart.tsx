@@ -1,4 +1,4 @@
-import { ResponsiveContainer, BarChart, XAxis, YAxis, Bar, Tooltip } from "recharts";
+import { ResponsiveContainer, BarChart, XAxis, YAxis, Bar, LabelList } from "recharts";
 import type { Product } from "../models/product";
 import { useEffect, useState } from "react";
 
@@ -22,11 +22,12 @@ export function QuantityByCategoryBarChart({ products }: QuantityByCategoryBarCh
 
     return (
         <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={barChartData}>
-                <XAxis dataKey="category" />
-                <YAxis dataKey="stockQuantity" />
-                <Bar dataKey="stockQuantity" fill="#EF4034" />
-                <Tooltip  />
+            <BarChart data={barChartData} layout="vertical" margin={{ left: 80, right: 50, bottom: 20 }}>
+                <XAxis type="number" dataKey="stockQuantity" label={{ value: 'Stock Quantity', angle: 0, position: 'insideBottom', offset: -10 }} />
+                <YAxis type="category" dataKey="category" />
+                <Bar dataKey="stockQuantity" fill="#EF4034">
+                    <LabelList dataKey="stockQuantity" position="right" />
+                </Bar>
             </BarChart>
         </ResponsiveContainer>
     );

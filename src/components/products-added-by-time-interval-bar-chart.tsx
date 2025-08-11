@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Product } from "../models/product";
-import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, LabelList, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 type ProductsAddedByTimeIntervalBarChartProps = {
     products: Product[] | undefined;
@@ -25,9 +25,10 @@ export function ProductsAddedByTimeIntervalBarChart({ products }: ProductsAddedB
         <ResponsiveContainer width="100%" height={300}>
             <BarChart data={barChartData}>
                 <XAxis dataKey="timeInterval" />
-                <YAxis dataKey="productCount" />
-                <Bar dataKey="productCount" fill="#8884d8" />
-                <Tooltip />
+                <YAxis dataKey="productCount" label={{ value: 'Product Count', angle: -90, position: 'center' }} />
+                <Bar dataKey="productCount" fill="black">
+                    <LabelList dataKey="productCount" position="top" />
+                </Bar>
             </BarChart>
         </ResponsiveContainer>
     );
