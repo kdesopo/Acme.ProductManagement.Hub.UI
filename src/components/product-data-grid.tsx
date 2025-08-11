@@ -15,9 +15,9 @@ export function ProductDataGrid({ products, isLoading }: ProductDataGridProps) {
             category: product.category,
             name: product.name,
             code: product.code,
-            price: product.price,
+            price: "$" + product.price,
             sku: product.sku,
-            stockQuantity: product.stockQuantity,
+            stockQuantity: product.stockQuantity.toLocaleString(),
             dateAdded: new Date(product.dateAdded).toLocaleDateString()
         }));
     }
