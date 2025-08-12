@@ -18,7 +18,7 @@ export function ProductDataGrid({ products, isLoading }: ProductDataGridProps) {
             price: "$" + product.price,
             sku: product.sku,
             stockQuantity: product.stockQuantity.toLocaleString(),
-            dateAdded: new Date(product.dateAdded).toLocaleDateString()
+            dateAdded: new Date(product.dateAdded).toISOString().split('T')[0].replace(/-/g, "/")
         }));
     }
 
@@ -29,7 +29,7 @@ export function ProductDataGrid({ products, isLoading }: ProductDataGridProps) {
         { field: 'price', headerName: 'Price', flex: 0.5 },
         { field: 'sku', headerName: 'SKU', flex: 1 },
         { field: 'stockQuantity', headerName: 'Stock Quantity', flex: 0.5 },
-        { field: 'dateAdded', headerName: 'Date Added', flex: 0.5 }
+        { field: 'dateAdded', headerName: 'Date Added', flex: 0.6 }
     ];
     return (
         <Box sx={{ width: '100%', p: 2 }}>
