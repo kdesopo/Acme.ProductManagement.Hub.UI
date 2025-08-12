@@ -17,7 +17,7 @@ export function ProductsAddedByTimeIntervalBarChart({ products }: ProductsAddedB
     useEffect(() => {
         if (products) {
             const productsSortedByDateAdded = products.sort((a, b) => new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime());
-            setBarChartData(getProductsAddedByTimeInterval(productsSortedByDateAdded));
+            setBarChartData(getProductsAddedByTimeIntervalBarChartData(productsSortedByDateAdded));
         }
     }, [products]);
 
@@ -34,14 +34,16 @@ export function ProductsAddedByTimeIntervalBarChart({ products }: ProductsAddedB
     );
 }
 
-function getProductsAddedByTimeInterval(products: Product[]): BarChartData[] {
-    const productsAddedByTimeInterval: BarChartData[] = [
-        { timeInterval: "This Week", productCount: 0 },
-        { timeInterval: "This Month", productCount: 0 },
-        { timeInterval: "This Year", productCount: 0 },
-        { timeInterval: "This Decade", productCount: 0 },
-        { timeInterval: "All Time", productCount: 0 }
-    ];
+function getProductsAddedByTimeIntervalBarChartData(products: Product[]): BarChartData[] {
+    const barChartData: BarChartData[] = [];
+
+    const productsAddedCountByTimeIntervalMap: Record<string, number> = {
+        "This Week": 0,
+        "This Month": 0,
+        "This Year": 0,
+        "This Decade": 0,
+        "All Time": 0
+    };
 
     for (const product of products) {
         const dateAdded = new Date(product.dateAdded);
@@ -50,20 +52,24 @@ function getProductsAddedByTimeInterval(products: Product[]): BarChartData[] {
         const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
 
         if (diffInDays < 7) {
-            productsAddedByTimeInterval[0].productCount++;
+            productsAddedCountByTimeIntervalMap["This Week"]++;
         }
         if (diffInDays < 30) {
-            productsAddedByTimeInterval[1].productCount++;
+            productsAddedCountByTimeIntervalMap["This Month"]++;
         }
         if (diffInDays < 365) {
-            productsAddedByTimeInterval[2].productCount++;
+            productsAddedCountByTimeIntervalMap["This Year"]++;
         }
         if (diffInDays < 3650) {
-            productsAddedByTimeInterval[3].productCount++;
+            productsAddedCountByTimeIntervalMap["This Decade"]++;
         }
-        
-        productsAddedByTimeInterval[4].productCount++;
+
+        productsAddedCountByTimeIntervalMap["All Time"]++;
     }
 
-    return productsAddedByTimeInterval;
+    for (const [timeInterval, productCount] of Object.entries(productsAddedCountByTimeIntervalMap)) {
+        barChartData.push({ timeInterval, productCount });
+    }
+
+    return barChartData;
 }

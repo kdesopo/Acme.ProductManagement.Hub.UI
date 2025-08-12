@@ -16,7 +16,7 @@ export function QuantityByCategoryBarChart({ products }: QuantityByCategoryBarCh
 
     useEffect(() => {
         if (products) {
-            setBarChartData(getQuantityByCategory(products));
+            setBarChartData(getQuantityByCategoryBarChartData(products));
         }
     }, [products]);
 
@@ -33,20 +33,19 @@ export function QuantityByCategoryBarChart({ products }: QuantityByCategoryBarCh
     );
 }
 
-function getQuantityByCategory(products: Product[]): BarChartData[] {
-    const quantityByCategory: BarChartData[] = [];
+function getQuantityByCategoryBarChartData(products: Product[]): BarChartData[] {
+    const barChartData: BarChartData[] = [];
+    const quantityByCategoryMap: Record<string, number> = {};
 
     for (const product of products) {
-        const existingCategory = quantityByCategory.find(item => item.category === product.category);
-        if (existingCategory) {
-            existingCategory.stockQuantity += product.stockQuantity;
-        } else {
-            quantityByCategory.push({
-                category: product.category,
-                stockQuantity: product.stockQuantity
-            });
-        }
+        quantityByCategoryMap[product.category] = (quantityByCategoryMap[product.category] || 0) + product.stockQuantity;
     }
 
-    return quantityByCategory;
+    for (const [category, stockQuantity] of Object.entries(quantityByCategoryMap)) {
+        barChartData.push({ category, stockQuantity });
+    }
+
+    barChartData.sort((a, b) => a.category.toLowerCase().localeCompare(b.category.toLowerCase()));
+
+    return barChartData;
 }
